@@ -1,0 +1,39 @@
+﻿@model medicalappointmentproject.Models.DiseasesDoctorDetail
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>DiseasesDoctorDetail</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DiseasesId" class="control-label"></label>
+                <input asp-for="DiseasesId" class="form-control" />
+                <span asp-validation-for="DiseasesId" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="DiseasesName" />
+            <div class="form-group">
+                <label asp-for="SuitableDoctorId" class="control-label"></label>
+                <select asp-for="SuitableDoctorId" class="form-control" asp-items="ViewBag.SuitableDoctorId"></select>
+                <span asp-validation-for="SuitableDoctorId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

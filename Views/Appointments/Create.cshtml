@@ -1,0 +1,81 @@
+﻿@model medicalappointmentproject.Models.Appointment
+@{
+    ViewData["Title"] = "Create";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<h1>Create</h1>
+
+<h4>Appointment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PatientName" class="control-label"></label>
+                <input asp-for="PatientName" class="form-control" />
+                <span asp-validation-for="PatientName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MedicalIssue" class="control-label"></label>
+                <select asp-for="MedicalIssue" id="Disease" class ="form-control" asp-items="ViewBag.MedicalIssue">
+                    <option>Choose the Disease</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="DoctorToVisit" class="control-label"></label>
+                <input asp-for="DoctorToVisit" id="doctorto" class="form-control" />
+                @*<select asp-for="DoctorToVisit" class="form-control" asp-items="ViewBag.doctor"></select>*@
+                <span asp-validation-for="DoctorToVisit"  class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DoctorAvalialbeTime" class="control-label"></label>
+                <input asp-for="DoctorAvalialbeTime" id="visittime" class="form-control" />
+                <span asp-validation-for="DoctorAvalialbeTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppointmentTime" class="control-label"></label>
+                <input asp-for="AppointmentTime" class="form-control" />
+                <span asp-validation-for="AppointmentTime"  class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        
+        $('#Disease').change(function(){
+        var formdata = new FormData();
+        //alert("asdfgh");
+
+            formdata.append("Disease", $("#Disease").val());
+            $.ajax({
+                type:'POST',
+                url: '@Url.Action("GetData","Appointments")',
+                processData:false,
+                contentType:false,
+                data: formdata,
+                success: function(result){
+                    //alert(result.doctorname);
+                    //alert(result.timeslot);
+                    $("#doctorto").val(result.doctorname);
+                    $("#visittime").val(result.timeslot);
+                }
+            });
+        });
+    });
+</script>
